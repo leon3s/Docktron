@@ -16,13 +16,7 @@ export default class App extends React.Component<IUpdateProps> {
 
   render() {
     return (
-      <React.Fragment>
-        <HeaderBar
-          title={'Docktron updater'}
-          favicon={'/images/logo.png'}
-        />
-        <Update />
-      </React.Fragment>
+      <Update />
     )
   }
 }

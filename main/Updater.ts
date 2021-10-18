@@ -30,7 +30,10 @@ export default class Updater {
       show: false,
       center: true,
       frame: false,
-      skipTaskbar: true,
+      skipTaskbar: false,
+      resizable: false,
+      width: 500,
+      height: 200,
       vibrancy: 'ultra-dark',
       webPreferences: {
         spellcheck: false,
@@ -40,7 +43,7 @@ export default class Updater {
         contextIsolation: false,
       },
     });
-
+    this.window.loadURL(this.page.url);
     this.window.webContents.on('dom-ready', () => {
       this.window.show();
     });
@@ -50,13 +53,14 @@ export default class Updater {
     this.eventEmiter.once(event, fn);
   }
 
-  private _initEvent() {
+  private _initEvents() {
     autoUpdater.on('checking-for-update', () => {
       log.info('Checking for update...');
     });
 
     autoUpdater.on('update-available', (info) => {
       log.info('Update available.', info);
+      this._createUpdateWindow();
     });
 
     autoUpdater.on('update-not-available', (info) => {
@@ -78,12 +82,15 @@ export default class Updater {
 
     autoUpdater.on('update-downloaded', (info) => {
       log.info('Update downloaded');
+      this.window.destroy();
       autoUpdater.quitAndInstall();
     });
   }
 
   public async checkForUpdate() {
-    autoUpdater.checkForUpdatesAndNotify().then((res) => {
+    this._initEvents();
+    autoUpdater.checkForUpdatesAndNotify()
+    .then((res) => {
       log.info(res);
       if (!res) {
         this.eventEmiter.emit('ready');
