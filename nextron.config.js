@@ -7,15 +7,11 @@ module.exports = {
 
   // main process' webpack config
   webpack: (defaultConfig, env) => {
-    const ret = Object.assign(defaultConfig, {
+    const webpackConfig = Object.assign(defaultConfig, {
       entry: {
         background: path.resolve('./main/main.ts'),
       },
     });
-    console.log({
-      ret,
-      defaultConfig,
-    });
-    return ret;
+    return webpackConfig;
   },
 };

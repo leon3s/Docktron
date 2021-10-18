@@ -1,38 +1,36 @@
-<p align="center"><img src="https://i.imgur.com/NZfsD1p.png"></p>
+<p align="center">
+  <img
+    src="https://docktron.org/images/logo.png"
+    width="200"
+  >
+</p>
 
-## Usage
+# Docktron
 
-### Create an App
+Docktron is a dock that turn you favorite webapps into native application
+it's open source and will always be.
 
+## Developement
+
+Clone repository
 ```
-# with npx
-$ npx create-nextron-app my-app --example with-typescript
-
-# with yarn
-$ yarn create nextron-app my-app --example with-typescript
-
-# with pnpx
-$ pnpx create-nextron-app my-app --example with-typescript
+git clone https://github.com/leon3s/Docktron docktron
 ```
-
-### Install Dependencies
-
+Install dependencies
 ```
-$ cd my-app
-
-# using yarn or npm
-$ yarn (or `npm install`)
-
-# using pnpm
-$ pnpm install --shamefully-hoist
+cd docktron
+npm install
 ```
 
-### Use it
-
+Run in development
 ```
-# development mode
-$ yarn dev (or `npm run dev` or `pnpm run dev`)
-
-# production build
-$ yarn build (or `npm run build` or `pnpm run build`)
+npm run dev
+```
+Package application (for production tests)
+```
+npm run build
+```
+Test
+```
+npm run test
 ```
