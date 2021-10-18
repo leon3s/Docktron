@@ -1,0 +1,14 @@
+appId: com.docktron.org
+productName: Docktron
+copyright: Copyright © 2021 network-esport
+directories:
+  output: dist
+  buildResources: resources
+files:
+  - from: .
+    filter:
+      - package.json
+      - app
+      - dist
+      - node_modules
+publish: null
