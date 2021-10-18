@@ -51,7 +51,9 @@ export default class Dock {
   }
 
   public destroy() {
-    this.window.destroy();
+    if (this.window) {
+      this.window.destroy();
+    }
   }
 
   public createWindow() {

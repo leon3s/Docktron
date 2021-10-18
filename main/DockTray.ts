@@ -1,5 +1,4 @@
 import {
-  app,
   Tray,
   Menu,
 } from 'electron';
@@ -17,7 +16,9 @@ export default class DockTray {
   }
 
   public destroy() {
-    this.tray.destroy();
+    if (this.tray) {
+      this.tray.destroy();
+    }
   }
 
   public on(name:string, fn:(...args) => void) {

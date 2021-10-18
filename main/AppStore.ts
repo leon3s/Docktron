@@ -154,6 +154,8 @@ const js = `module.exports = {
   }
 
   public destroy() {
-    this.window.destroy();
+    if (this.window) {
+      this.window.destroy();
+    }
   }
 }
