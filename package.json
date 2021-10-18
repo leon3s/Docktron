@@ -7,12 +7,14 @@
   "main": "app/background.js",
   "scripts": {
     "dev": "nextron --port 3002",
+    "publish": "electron-builder -p always",
     "build": "cross-env NODE_ENV=production nextron build",
-    "postinstall": "electron-builder install-app-deps"
+    "postinstall": "cross-env GH_TOKEN=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 electron-builder install-app-deps"
   },
   "dependencies": {
     "axios": "^0.22.0",
     "electron-context-menu": "^3.1.1",
+    "electron-log": "^4.4.1",
     "electron-serve": "^1.1.0",
     "electron-store": "^8.0.0",
     "electron-updater": "^4.3.9",

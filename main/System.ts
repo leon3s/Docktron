@@ -8,6 +8,7 @@ import {
   IpcMain,
   ipcMain,
 } from 'electron';
+import log from 'electron-log';
 import serve from 'electron-serve';
 
 import Dock from './Dock';
@@ -15,13 +16,18 @@ import DockTray from './DockTray';
 import DockConfig from './DockConfig';
 import AppManager from './AppManager';
 
-import '../headers/docktron.h';
+import { autoUpdater } from 'electron-updater';
 
-import * as Events from './Events';
-import { isProd, __static } from './utils';
-import AppStore from './AppStore';
 import { IApp } from '../headers/docktron.h';
-import { existsSync } from 'fs';
+
+import {
+  isProd,
+  __static,
+} from './utils';
+import * as Events from './Events';
+
+import AppStore from './AppStore';
+import Updater from './Updater';
 
 if (isProd) {
   serve({ directory: 'app' });
@@ -32,10 +38,11 @@ if (isProd) {
   );
 }
 
+log.transports.file.level = 'info';
+autoUpdater.logger = log;
+log.info('App starting...');
 
 const widevinecdmPath = path.join(__static, 'browser-plugins/widevinecdm/widevinecdm.dll');
-const isExist = existsSync(widevinecdmPath);
-console.log(isExist);
 app.commandLine.appendSwitch('widevine-cdm-path', widevinecdmPath);
 app.commandLine.appendSwitch('widevine-cdm-version', '4.10.2209.1');
 
@@ -47,6 +54,7 @@ export default class System {
   ipcMain:IpcMain;
   appStore:AppStore;
   appManager:AppManager;
+  appUpdater:Updater;
   dockConfig:DockConfig;
   primaryDisplay:Display;
   trayIconPath:string = path.join(__static, './images/docktron_logo.png');
@@ -74,26 +82,32 @@ export default class System {
       'Docktron',
       this.trayIconPath,
     );
+    this.appUpdater = new Updater();
     this.appStore = new AppStore();
     this.appManager = new AppManager();
     this.dockConfig = new DockConfig(this.dock);
-    // Google services user agent
-    // this.app.userAgentFallback = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) old-airport-include/1.0.0 Chrome Electron/7.1.7 Safari/537.36';
     this._initAppStoreEvents();
     this._initAppManagerEvents();
   }
 
+  /**
+   * Setup tray
+  */
   private _setupTray() {
     this.tray.create();
+  
     this.tray.on('exit:click', () => {
       this.app.quit();
     });
+
     this.tray.on('store:click', () => {
       this.appStore.open();
     });
+
     this.tray.on('dock:dev-tools:click', () => {
       this.appStore.window.webContents.send('open:dev-tools');
     });
+
     this.tray.on('store:dev-tools:click', () => {
       this.appStore.window.webContents.send('open:dev-tools');
     });
@@ -140,16 +154,19 @@ export default class System {
     });
   }
 
+  private _checkForUpdate() {
+
+  }
+
   /** We prepare front to be show */
   private async _init() {
-    this._initSubsystem();
     setTimeout(() => this._start(), 500);
   }
 
   /** Enable system */
   public async start() {
     const system = this;
-    // Disable harware acceleration for transparent background compatibility
+    // Disable harware acceleration for transparent background compatibility may be needed on some system
     // this.app.disableHardwareAcceleration();
     // Hide app in dock if we are on MacOSX
     if (process.platform === 'darwin') {
@@ -161,12 +178,15 @@ export default class System {
       system.appStore.destroy();
       system.appManager.destroy();
     });
-    // Quit the app once all windows are closed
     this.app.on('window-all-closed', () => {
       this.app.quit();
     });
     await this.app.whenReady();
-    this._init();
+    this._initSubsystem();
+    this.appUpdater.checkForUpdate();
+    this.appUpdater.once('ready', () => {
+      this._init();
+    })
     // this.app.on('widevine-ready', () => {
     //   this._init();
     // });

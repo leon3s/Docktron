@@ -11,4 +11,3 @@ files:
       - app
       - dist
       - node_modules
-publish: null

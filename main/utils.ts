@@ -1,5 +1,10 @@
 import os from 'os';
+import defaultLog from 'electron-log';
 import path from 'path';
+
+defaultLog.transports.file.level = 'info';
+
+export const log = defaultLog;
 
 export const isProd: boolean = process.env.NODE_ENV === 'production';
 
