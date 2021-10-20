@@ -72,7 +72,7 @@ class                     System {
   public async start(id:string, render:string, opts:WindowOpts = {}) {
     debugLog('start', {id, render});
     this.__autoUpdater.onReady(this.__startMainWindow(id, render, opts));
-    this.__autoUpdater.checkForUpdate();
+    await this.__autoUpdater.checkForUpdate();
   }
 
   private __startMainWindow(id:string, render:string, opts:WindowOpts = {}) {

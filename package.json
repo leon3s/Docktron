@@ -7,10 +7,10 @@
   "main": "./app/background.js",
   "scripts": {
     "dev": "nextron --port 3002",
+    "postinstall": "electron-builder install-app-deps",
     "test": "cross-env NODE_ENV=production node ./cli.js",
     "build": "cross-env NODE_ENV=production nextron build",
-    "publish": "cross-env NODE_ENV=production nextron -p always",
-    "postinstall": "electron-builder install-app-deps"
+    "publish": "cross-env NODE_ENV=production electron-builder -p always"
   },
   "dependencies": {
     "axios": "^0.22.0",

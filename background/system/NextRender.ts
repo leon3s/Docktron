@@ -1,6 +1,11 @@
+import serve from 'electron-serve';
 import querystring from 'querystring';
 
 import { __isProd } from '../utils';
+
+if (__isProd) {
+  serve({ directory: 'app' });
+}
 
 export
 class       NextRender {
