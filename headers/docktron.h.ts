@@ -1,9 +1,3 @@
-declare const NodeJS: {
-  global: {
-    __static: string;
-  }
-}
-
 export interface IApp {
   name:string;
   url:string;
@@ -13,6 +7,7 @@ export interface IApp {
   userAgent:string;
   lastUpdateDate:Date;
   lastCreationDate:Date;
+  ID: string;
 }
 
 export interface IEventNotification {
@@ -21,11 +16,22 @@ export interface IEventNotification {
 }
 
 export interface IDockConfig {
-  key:string;
   apps: IApp[];
 }
 
 export interface IEventNotificationCount {
   appId:string;
   number:number;
+}
+
+export interface IWebApp {
+  name:string;
+  url:string;
+  icon:string;
+  id:string;
+  load:string;
+  userAgent:string;
+  lastUpdateDate:Date;
+  lastCreationDate:Date;
+  ID: string;
 }

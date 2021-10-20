@@ -8,6 +8,8 @@ import {
   IDockConfig,
 } from '../../../headers/docktron.h'
 
+import * as IPC_EVENTS from '../../../ipc';
+
 import * as Style from './style';
 
 interface IDockProps {
@@ -21,15 +23,15 @@ export default class Dock extends React.PureComponent<IDockProps> {
   ref = React.createRef<AppList>();
 
   onPressApp = (app: IApp): void => {
-    ipcRenderer.send('app:open', app);
+    ipcRenderer.send(IPC_EVENTS.DOCK.APP_OPEN, app);
   }
 
   onMouseEnter = () => {
-    ipcRenderer.send('dock:show');
+    ipcRenderer.send(IPC_EVENTS.DOCK.SHOW);
   }
 
   onMouseLeave = () => {
-    ipcRenderer.send('dock:hide');
+    ipcRenderer.send(IPC_EVENTS.DOCK.HIDE);
     this.ref.current.onCloseContextMenu();
   }
 

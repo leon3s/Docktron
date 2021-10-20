@@ -11,7 +11,7 @@ interface IAppContextMenu {
   onPressOption:(action:string) => void;
 }
 
-import * as Events from '../../../events';
+import * as IPC_EVENTS from '../../../ipc';
 
 export default class AppContextMenu extends React.PureComponent<IAppContextMenu> {
   onPressOption = (action:string) => () => {
@@ -35,13 +35,13 @@ export default class AppContextMenu extends React.PureComponent<IAppContextMenu>
           onContextMenu={onClose}
         >
           <Style.MenuList>
-            <Style.MenuOption onClick={this.onPressOption(Events.appOpenDevTools)}>
+            {/* <Style.MenuOption onClick={this.onPressOption(IPC_EVENTS.appOpenDevTools)}>
               Open dev tools
-            </Style.MenuOption>
-            <Style.MenuOption onClick={this.onPressOption(Events.appReload)}>
+            </Style.MenuOption> */}
+            {/* <Style.MenuOption onClick={this.onPressOption(IPC_EVENTS.appReload)}>
               Reload
-            </Style.MenuOption>
-            <Style.MenuOption onClick={this.onPressOption(Events.appUninstall)}>
+            </Style.MenuOption> */}
+            <Style.MenuOption onClick={this.onPressOption(IPC_EVENTS.PKG.UNINSTALL)}>
               Uninstall
             </Style.MenuOption>
           </Style.MenuList>

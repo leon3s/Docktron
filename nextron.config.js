@@ -1,7 +1,8 @@
 const path = require('path');
+
 module.exports = {
   // specify an alternate main src directory, defaults to 'main'
-  mainSrcDir: 'main',
+  mainSrcDir: 'background',
   // specify an alternate renderer src directory, defaults to 'renderer'
   rendererSrcDir: 'renderer',
 
@@ -9,7 +10,7 @@ module.exports = {
   webpack: (defaultConfig, env) => {
     const webpackConfig = Object.assign(defaultConfig, {
       entry: {
-        background: path.resolve('./main/main.ts'),
+        background: path.resolve('./background/index.ts'),
       },
     });
     return webpackConfig;

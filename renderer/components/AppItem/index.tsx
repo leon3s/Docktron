@@ -32,6 +32,7 @@ export default class AppItem extends React.PureComponent<IAppItemProps> {
       <Style.Container
         title={data.name}
         onClick={onPress}
+        data-itemID={data.id}
       >
         <Style.CountBadgeContainer>
           {notification ?

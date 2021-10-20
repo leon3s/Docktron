@@ -45,13 +45,13 @@ export default class Webview extends React.PureComponent<WebviewProps> {
       props: this.props,
     });
     return (
-      <Style.Container>
+      <Style.Container id="webview-container">
         <webview
           id="app-webview"
           title={this.props.name}
           preload={preload}
           src={this.props.url}
-          webpreferences="contextIsolation=false"
+          webpreferences="contextIsolation=no, enableRemoteModule=yes"
           useragent={this.props.userAgent}
           style={{
             width: '100%',
