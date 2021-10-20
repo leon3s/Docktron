@@ -21,7 +21,6 @@ class                       AutoUpdater {
   constructor(system:System) {
     this.__system = system;
     this.__autoUpdater = autoUpdater;
-    this.__windowManager = this.__system.getModule<WindowManager>(WindowManager);
   }
 
   public onReady(callback:() => void|Promise<void> = () => {}) {
@@ -29,13 +28,17 @@ class                       AutoUpdater {
   }
 
   public async checkForUpdate() {
+    this.__windowManager = this.__system.getModule<WindowManager>(WindowManager);
     this.__initListenners();
-    const res = await autoUpdater.checkForUpdates();
-    debugLog(res);
-    if (!res) {
-      this.__onReady();
-    } else {
-      // do something else ?
+    try {
+      const res = await autoUpdater.checkForUpdates();
+      debugLog(res);
+      if (!res) {
+        this.__onReady();
+      } else {
+        // do something else ?
+      }
+    } catch (e) {
     }
   }
 
@@ -48,7 +51,15 @@ class                       AutoUpdater {
       debugLog('Update available.', info);
       this.__win = this.__windowManager.createWindow('sys.auto.update', 'update', {
         title: 'AutoUpdate',
-      })
+        resizable: false,
+        width: 500,
+        height: 200,
+      });
+      this.__win.instantiate();
+      this.__win.render();
+      this.__win.once('ready-to-show', () => {
+        this.__win.show();
+      });
     });
 
     this.__autoUpdater.on('update-not-available', (info) => {

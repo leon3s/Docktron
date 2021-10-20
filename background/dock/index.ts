@@ -8,24 +8,21 @@ import System from '../system';
 
 import * as IPC_EVENTS from '../../ipc';
 
-import { IDockConfig } from '../../headers/docktron.h';
-
 import {
   __appsDir,
   __configDir,
 } from '../utils';
-import config from './config';
 
 import {
-  PKGModule,
   TrayModule,
-  WebappModule
+  ConfigModule,
+  PackagesModule,
 } from './modules';
 
 export default
-class               Dock {
-  private __system: System;
-  private __config: IDockConfig;
+class                   Dock {
+  private __system:     System;
+  public configManager: ConfigModule;
 
   constructor() {
     this.__system = new System();
@@ -33,14 +30,14 @@ class               Dock {
 
   public async boot() {
     await this.__system.boot();
-    this.__system.loadModule(PKGModule);
+    this.__system.loadModule(ConfigModule);
+    this.__system.loadModule(PackagesModule);
     this.__system.loadModule(TrayModule);
-    this.__system.loadModule(WebappModule);
-    this.__config = config(__appsDir);
+    this.configManager = this.__system.getModule<ConfigModule>(ConfigModule);
   }
 
   public async start() {
-    const {__system, __config} = this;
+    const {__system, configManager} = this;
     await __system.start(
       'com.docktron',
       'dock', {
@@ -50,7 +47,7 @@ class               Dock {
     this.__bindIpcEvents();
     __system.win.preRender(this.__preRender);
     __system.win.once('ready-to-show', function() {
-      __system.win.ipcEmit(IPC_EVENTS.DOCK.SYNC_CONFIG, __config);
+      configManager.syncConfig();
       __system.win.show();
     });
     await __system.win.render();

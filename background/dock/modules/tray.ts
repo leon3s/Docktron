@@ -3,14 +3,14 @@ import {Menu, Tray} from 'electron';
 
 import Module from '../../system/Module';
 
-import { PKGModule } from './pkg';
+import { PackagesModule } from './pkg';
 
 import { __static } from '../../utils';
 
 export
 class                     TrayModule extends Module {
   public static settings = {
-    id: 'sys.tray',
+    id: 'dock.tray',
   }
 
   public tray:            Tray;
@@ -20,12 +20,12 @@ class                     TrayModule extends Module {
   async boot() {
     this.tray = new Tray(this.__iconPath);
     this.tray.setToolTip(this.__title);
-    const windowManager = this.system.getModule<PKGModule>(PKGModule);
+    const packagesModule = this.system.getModule<PackagesModule>(PackagesModule);
     const contextMenu = Menu.buildFromTemplate([
       {
         label: 'Packages',
         click: () => {
-          windowManager.win.show();
+          packagesModule.win.show();
         },
       },
       {

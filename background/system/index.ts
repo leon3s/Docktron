@@ -47,7 +47,6 @@ class                     System {
 
   public beforeQuit(callback = () => {}) {
     this.__kernel.beforeQuit(async () => {
-      console.log('im called !');
       await this.__stopModules();
       callback();
     });
@@ -92,6 +91,7 @@ class                     System {
 
   private async __bootModules() {
     await Promise.all(Object.keys(this.__modules).map(async (ID:string) => {
+      debugLog('Booting module: ', ID);
       const module = this.__modules[ID];
       Object.keys(module.ipcListeners).forEach((key) => {
         ipcMain.on(key, module.ipcListeners[key]);

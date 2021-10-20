@@ -3,10 +3,14 @@ import fs from "fs";
 import path from "path";
 import imageType from 'image-type';
 
-import { IDockConfig, IWebApp } from "../../../headers/docktron.h";
+import { IWebApp } from "../../../headers/docktron.h";
+
+import * as IPC_EVENTS from '../../../ipc';
 
 import { WindowManager } from "../../system/modules";
 import Module, { TIpcListeners } from "../../system/Module";
+
+import { ConfigModule } from './config';
 
 import {
   __configDir,
@@ -15,38 +19,28 @@ import {
   __static,
 } from "../../utils";
 
-import config from '../config';
-import * as IPC_EVENTS from '../../../ipc';
-
-import { WebappModule } from './webapp';
-
 export
-class   PKGModule extends Module {
+class   PackagesModule extends Module {
   public static settings = {
-    id: 'system.pkg',
+    id: 'dock.pkg',
   };
 
-  config:IDockConfig = {
-    apps: [],
-  };
-
-  webappManager:WebappModule;
+  configModule:ConfigModule;
+  windowManager:WindowManager;
 
   ipcListeners:TIpcListeners = {
     [IPC_EVENTS.PKG.INSTALL]: (e, pkg) => {
       const pkgVersion = this.__getAppVersion(pkg);
       if (!pkgVersion) {
         const response = this.__installApp(pkg);
-        const dockConfig = config(__appsDir);
-        this.system.win.ipcEmit(IPC_EVENTS.DOCK.SYNC_CONFIG, dockConfig);
+        this.configModule.syncConfig();
         e.returnValue = response;
         return;
       }
       if (pkgVersion.lastUpdateDate !== pkg.lastUpdateDate) {
         const response = this.__installApp(pkg);
-        const dockConfig = config(__appsDir);
-        this.webappManager.loadApp(pkg);
-        this.system.win.ipcEmit(IPC_EVENTS.DOCK.SYNC_CONFIG, dockConfig);
+        this.__loadApp(pkg);
+        this.configModule.syncConfig();
         e.returnValue = response;
         return;
       }
@@ -54,7 +48,6 @@ class   PKGModule extends Module {
     },
     [IPC_EVENTS.PKG.VERSION]: (e, pkg) => {
       const appVersion = this.__getAppVersion(pkg);
-      console.log(appVersion);
       e.returnValue = appVersion;
     },
     [IPC_EVENTS.PKG.UNINSTALL]: (e, pkg) => {
@@ -63,18 +56,41 @@ class   PKGModule extends Module {
         const bIsPathExist = fs.existsSync(appPath);
         if (bIsPathExist) {
           fs.rmSync(appPath, { recursive: true });
-          const dockConfig = config(__appsDir);
-          this.system.win.ipcEmit(IPC_EVENTS.DOCK.SYNC_CONFIG, dockConfig);
+          this.configModule.syncConfig();
         }
       }
     }
   }
 
   public async boot() {
-    this.config = config(__appsDir);
-    this.webappManager = this.system.getModule<WebappModule>(WebappModule);
-    const windowManager = this.system.getModule<WindowManager>(WindowManager);
-    this.win = windowManager.createWindow('system.pkg', 'app', {
+    this.windowManager = this.system.getModule<WindowManager>(WindowManager);
+    this.configModule = this.system.getModule<ConfigModule>(ConfigModule);
+    this.__createPackageWindow();
+    this.__loadApps();
+  };
+
+  private __loadApp = (app:IWebApp) => {
+    const win = this.windowManager.createWindow(app.id, 'app', {
+      title: app.name,
+    });
+    win.bindData({
+      ...app,
+      preloadPath: path.join(__static, './scripts/preload.js'),
+    });
+    win.instantiate();
+    win.on('close', (e) => {
+      e.preventDefault();
+      win.hide();
+    });
+    win.render();
+  }
+
+  private __loadApps() {
+    this.configModule.config.apps.forEach(this.__loadApp);
+  }
+
+  private __createPackageWindow() {
+    this.win = this.windowManager.createWindow('system.pkg', 'app', {
       title: 'Packages',
       alwaysOnTop: false,
     });
@@ -90,7 +106,7 @@ class   PKGModule extends Module {
     this.win.once('ready-to-show', () => {
       this.win.show();
     });
-  };
+  }
 
   private __generateAppIcon(appPath, iconB64) {
     const iconBuffer = Buffer.from(iconB64.replace('data:image/png;base64,', ''), 'base64');
