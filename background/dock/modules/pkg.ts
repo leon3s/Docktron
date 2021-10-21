@@ -99,7 +99,7 @@ class   PackagesModule extends Module {
       userAgent: 'Docktron/1.0',
       icon: '/images/docktron-logo.png',
       preloadPath: path.join(__static, './scripts/preload.js'),
-      url: __isProd ? 'https://docktron.org/store' : 'http://localhost:3001/store',
+      url: __isProd ? 'https://docktron.org/packages' : 'http://localhost:3001/packages',
     });
     this.win.instantiate();
     this.win.render();

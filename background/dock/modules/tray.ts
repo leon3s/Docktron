@@ -13,7 +13,7 @@ class                     TrayModule extends Module {
     id: 'dock.tray',
   }
 
-  public tray:            Tray;
+  public  tray:           Tray;
   private __title:        string = 'Docktron';
   private __iconPath:     string = path.join(__static, './images/docktron_logo.png');
 
