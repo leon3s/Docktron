@@ -2,11 +2,11 @@ import {
   AppUpdater,
   autoUpdater,
 } from 'electron-updater';
-import System from '.';
 
-import { createDebugLog } from '../utils';
-import { WindowManager } from './modules';
+import System from '.';
 import Window from './Window';
+import { WindowManager } from './modules';
+import { createDebugLog } from '../utils';
 
 const debugLog = createDebugLog('AutoUpdate');
 

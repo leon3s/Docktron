@@ -18,11 +18,13 @@ import {
   ConfigModule,
   PackagesModule,
 } from './modules';
+import { WindowManager } from '../system/modules';
 
 export default
 class                   Dock {
   private __system:     System;
   public configManager: ConfigModule;
+  public windowManager: WindowManager;
 
   constructor() {
     this.__system = new System();
@@ -30,10 +32,11 @@ class                   Dock {
 
   public async boot() {
     await this.__system.boot();
-    this.__system.loadModule(ConfigModule);
+    this.configManager = this.__system.loadModule<ConfigModule>(ConfigModule);
     this.__system.loadModule(PackagesModule);
     this.__system.loadModule(TrayModule);
     this.configManager = this.__system.getModule<ConfigModule>(ConfigModule);
+    this.windowManager = this.__system.getModule<WindowManager>(WindowManager);
   }
 
   public async start() {
@@ -61,6 +64,11 @@ class                   Dock {
       win.setSize(200, size.height);
       win.setContentSize(200, size.height);
       win.setPosition(size.width - 200, 0);
+    });
+
+    ipcMain.on(IPC_EVENTS.DOCK.APP_OPEN, (e:IpcMainEvent, pkg) => {
+      const win = this.windowManager.getByID(pkg.id);
+      win.show();
     });
 
     ipcMain.on(IPC_EVENTS.DOCK.HIDE, (e:IpcMainEvent) => {

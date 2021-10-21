@@ -59,7 +59,7 @@ class   PackagesModule extends Module {
           this.configModule.syncConfig();
         }
       }
-    }
+    },
   }
 
   public async boot() {

@@ -1,6 +1,7 @@
 const path = require('path');
 
 module.exports = {
+  testBin: 'mocha',
   // specify an alternate main src directory, defaults to 'main'
   mainSrcDir: 'background',
   // specify an alternate renderer src directory, defaults to 'renderer'

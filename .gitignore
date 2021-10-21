@@ -4,3 +4,4 @@ node_modules
 app
 dist
 test-data.tmp
+.nextron.pid

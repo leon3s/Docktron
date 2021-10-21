@@ -2,8 +2,8 @@ import { ipcMain } from 'electron';
 
 import Kernel from './Kernel';
 import Module from './Module';
-import Window, {WindowOpts} from './Window';
 import AutoUpdater from './AutoUpdater';
+import Window, {WindowOpts} from './Window';
 
 import * as moduleNatifs from './modules';
 
@@ -52,13 +52,13 @@ class                     System {
     });
   }
 
-  public async loadModule(NewModule:ModuleType) {
+  public loadModule<T extends Module>(NewModule:ModuleType) {
     const {id} = NewModule.settings;
     debugLog('loadModule', id);
     if (this.__modules[id]) {
       throw new Error(`Module ${id} is Already loaded aborded.`);
     }
-    this.__modules[id] = new NewModule(this);
+    return this.__modules[id] = new NewModule(this) as T;
   }
 
   public getModule<T extends Module>(ModuleRef:ModuleType|string) {
@@ -104,7 +104,7 @@ class                     System {
     debugLog('__loadModuleNatifs');
     Promise.all(Object.keys(moduleNatifs).map(async (moduleName) => {
       const ModuleNatif:typeof Module = moduleNatifs[moduleName];
-      await this.loadModule(ModuleNatif);
+      return this.loadModule(ModuleNatif);
     }));
   }
 }
