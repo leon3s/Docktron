@@ -17,7 +17,7 @@ document.addEventListener('click', function (event) {
 /** NOTIFICATION OVERRIDE **/
 const OldNotification = window.Notification;
 window.Notification = function(...args) {
-  ipcRenderer.send('notification', {
+  ipcRenderer.send('system:notification:new', {
     appId: window.docktronAppId,
     args,
   });
@@ -25,7 +25,7 @@ window.Notification = function(...args) {
   setTimeout(() => {
     const oldOnClick = notification.onclick;
     notification.onclick = function() {
-      ipcRenderer.send('notification:click', {
+      ipcRenderer.send('system:notification:click', {
         appId: window.docktronAppId,
       });
       if (oldOnClick) oldOnClick();

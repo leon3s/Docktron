@@ -7,7 +7,7 @@
  * Created Date: Wednesday, 20th October 2021 3:54:35 pm
  * Author: leone
  * -----
- * Last Modified: Fri Oct 22 2021
+ * Last Modified: Sun Oct 24 2021
  * Modified By: leone
  * -----
  * Copyright (c) 2021 docktron
@@ -44,7 +44,7 @@ class                   ConfigModule extends Module {
 
   public async boot() {
     this.config = this.readConfigDir();
-    debugLog('booting config', this.config);
+    // debugLog('booting config', this.config);
   }
 
   public readAppDir(appDirPath:string):IWebApp {

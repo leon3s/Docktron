@@ -21,6 +21,8 @@ import imageType from 'image-type';
 
 import { IWebApp } from "@docktron/headers";
 
+import {NativeImage, nativeImage} from 'electron';
+
 import * as IPC_EVENTS from '~/ipc';
 
 import { WindowManager } from "../../system/modules";
@@ -36,45 +38,51 @@ import {
 } from "../../utils";
 
 export
-class   PackagesModule extends Module {
-  public static settings = {
+class             PackagesModule extends Module {
+  public static   settings = {
     id: 'dock.pkg',
   };
 
-  configModule:ConfigModule;
-  windowManager:WindowManager;
+  configModule:   ConfigModule;
+  windowManager:  WindowManager;
 
-  ipcListeners:TIpcListeners = {
-    [IPC_EVENTS.PKG.INSTALL]: (e, pkg) => {
-      const pkgVersion = this.__getAppVersion(pkg);
-      if (!pkgVersion) {
-        const response = this.__installApp(pkg);
-        this.configModule.syncConfig();
-        e.returnValue = response;
-        return;
-      }
-      if (pkgVersion.lastUpdateDate !== pkg.lastUpdateDate) {
-        const response = this.__installApp(pkg);
-        this.__loadApp(pkg);
-        this.configModule.syncConfig();
-        e.returnValue = response;
-        return;
-      }
-      e.returnValue = {success: false, error: new Error('Package have latest update')};
-    },
-    [IPC_EVENTS.PKG.VERSION]: (e, pkg) => {
-      const appVersion = this.__getAppVersion(pkg);
-      e.returnValue = appVersion;
-    },
-    [IPC_EVENTS.PKG.UNINSTALL]: (e, pkg) => {
-      if (pkg && pkg.id) {
-        const appPath = path.join(__appsDir, pkg.id);
-        const bIsPathExist = fs.existsSync(appPath);
-        if (bIsPathExist) {
-          fs.rmSync(appPath, { recursive: true });
+  ipcListeners:   TIpcListeners = {
+
+    [IPC_EVENTS.PKG.INSTALL]:
+      (e, pkg) => {
+        const pkgVersion = this.__getAppVersion(pkg);
+        if (!pkgVersion) {
+          const response = this.__installApp(pkg);
           this.configModule.syncConfig();
+          e.returnValue = response;
+          return;
         }
-      }
+        if (pkgVersion.lastUpdateDate !== pkg.lastUpdateDate) {
+          const response = this.__installApp(pkg);
+          this.__loadApp(pkg);
+          this.configModule.syncConfig();
+          e.returnValue = response;
+          return;
+        }
+        e.returnValue = {success: false, error: new Error('Package have latest update')};
+    },
+
+    [IPC_EVENTS.PKG.VERSION]:
+      (e, pkg) => {
+        const appVersion = this.__getAppVersion(pkg);
+        e.returnValue = appVersion;
+    },
+
+    [IPC_EVENTS.PKG.UNINSTALL]:
+      (e, pkg) => {
+        if (pkg && pkg.id) {
+          const appPath = path.join(__appsDir, pkg.id);
+          const bIsPathExist = fs.existsSync(appPath);
+          if (bIsPathExist) {
+            fs.rmSync(appPath, { recursive: true });
+            this.configModule.syncConfig();
+          }
+        }
     },
   }
 
@@ -86,8 +94,18 @@ class   PackagesModule extends Module {
   };
 
   private __loadApp = (app:IWebApp) => {
+    // console.log('loading app ', app.icon);
+    const iconBuffer = Buffer.from(app.icon.replace('data:image/png;base64,', ''), 'base64');
+    console.log('--- loooad app ---');
+    console.log(iconBuffer);
+    const icon = nativeImage.createFromBuffer(iconBuffer);
+    console.log(icon);
+    console.log(icon.isEmpty());
+    console.log(icon.toPNG());
+    console.log('--- loooad app ---');
     const win = this.windowManager.createWindow(app.id, 'app', {
       title: app.name,
+      icon: icon,
     });
     win.bindData({
       ...app,

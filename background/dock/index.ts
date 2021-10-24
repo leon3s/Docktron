@@ -17,6 +17,7 @@ import {
   TrayModule,
   ConfigModule,
   PackagesModule,
+  NotificationModule,
 } from './modules';
 import { WindowManager } from '../system/modules';
 
@@ -35,6 +36,7 @@ class                   Dock {
     this.configManager = this.__system.loadModule<ConfigModule>(ConfigModule);
     this.__system.loadModule(PackagesModule);
     this.__system.loadModule(TrayModule);
+    this.__system.loadModule(NotificationModule);
     this.configManager = this.__system.getModule<ConfigModule>(ConfigModule);
     this.windowManager = this.__system.getModule<WindowManager>(WindowManager);
   }

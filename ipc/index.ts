@@ -10,3 +10,9 @@ export const PKG = {
   INSTALL: 'system:pkg:install',
   UNINSTALL: 'system:pkg:uninstall',
 }
+
+export const NOTIFICATION = {
+  NEW: 'system:notification:new',
+  COUNT: 'system:notification:count',
+  CLICK: 'system:notification:click',
+};

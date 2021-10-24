@@ -7,7 +7,7 @@
  * Created Date: Tuesday, 17th August 2021 7:00:27 am
  * Author: leone
  * -----
- * Last Modified: Fri Oct 22 2021
+ * Last Modified: Su/10/yyyy 09:nn:14
  * Modified By: leone
  * -----
  * Copyright (c) 2021 docktron
@@ -43,7 +43,7 @@ class DockPage extends PureComponent {
         config,
       });
     });
-    ipcRenderer.on('notification:count',
+    ipcRenderer.on(IPC_EVENTS.NOTIFICATION.COUNT,
     (e:IpcRendererEvent, data:IEventNotificationCount) => {
       const {appId, number} = data;
       this.setState({
@@ -54,7 +54,7 @@ class DockPage extends PureComponent {
         }
       });
     });
-    ipcRenderer.on('notification',
+    ipcRenderer.on(IPC_EVENTS.NOTIFICATION.NEW,
     (e:IpcRendererEvent, data:IEventNotification) => {
       const {appId, args} = data;
       this.setState({
