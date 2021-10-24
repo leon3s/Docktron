@@ -1,20 +1,36 @@
+/*
+ *  ___   _   _ |  _|_ __  _     
+ *  |__) [_] |_ |<  |_ |  [_] |\|
+ * 
+ * File: \renderer\components\AppItem\index.tsx
+ * Project: docktron
+ * Created Date: Tuesday, 17th August 2021 7:39:59 am
+ * Author: leone
+ * -----
+ * Last Modified: Fri Oct 22 2021
+ * Modified By: leone
+ * -----
+ * Copyright (c) 2021 docktron
+ * -----
+ */
+
 import React from 'react';
 
-import { IApp } from '../../../headers/docktron.h';
+import { IWebApp } from '@docktron/headers';
 
 import CountBadge from '../CountBadge';
 
 import * as Style from './style';
 
 interface IAppItemProps {
-  data: IApp;
+  data: IWebApp;
   index:number;
   position:string;
   selected:boolean;
   noborder:boolean;
   onPress:() => void;
   notification:number;
-  onContextMenu:(e:React.MouseEvent<HTMLDivElement>, app:IApp) => void;
+  onContextMenu:(e:React.MouseEvent<HTMLDivElement>, app:IWebApp) => void;
 }
 
 export default class AppItem extends React.PureComponent<IAppItemProps> {

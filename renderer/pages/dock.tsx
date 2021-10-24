@@ -1,4 +1,20 @@
-import React from 'react';
+/*
+ *  ___   _   _ |  _|_ __  _     
+ *  |__) [_] |_ |<  |_ |  [_] |\|
+ * 
+ * File: \renderer\pages\dock.tsx
+ * Project: docktron
+ * Created Date: Tuesday, 17th August 2021 7:00:27 am
+ * Author: leone
+ * -----
+ * Last Modified: Fri Oct 22 2021
+ * Modified By: leone
+ * -----
+ * Copyright (c) 2021 docktron
+ * -----
+ */
+
+import {PureComponent} from 'react';
 
 import {
   ipcRenderer,
@@ -10,11 +26,12 @@ import Dock from '../containers/Dock';
 import {
   IEventNotification,
   IEventNotificationCount,
-} from '../../headers/docktron.h';
+} from '@docktron/headers';
 
 import * as IPC_EVENTS from '../../ipc';
 
-export default class DockPage extends React.Component {
+export default
+class DockPage extends PureComponent {
   state = {
     config: null,
     notifications: {},

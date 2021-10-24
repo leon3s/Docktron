@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
     "target": "es5",
     "module": "esnext",
     "moduleResolution": "node",
@@ -16,7 +17,12 @@
     "noEmit": true,
     "esModuleInterop": true,
     "resolveJsonModule": true,
-    "isolatedModules": true
+    "isolatedModules": true,
+    "paths": {
+      "~/ipc": ["ipc"],
+      "~/ipc/*": ["ipc/*"],
+      "~/headers/*": ["headers/*"]
+    }
   },
   "exclude": [
     "node_modules",

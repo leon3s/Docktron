@@ -1,10 +1,26 @@
+/*
+ *  ___   _   _ |  _|_ __  _     
+ *  |__) [_] |_ |<  |_ |  [_] |\|
+ * 
+ * File: \background\dock\modules\config.ts
+ * Project: docktron
+ * Created Date: Wednesday, 20th October 2021 3:54:35 pm
+ * Author: leone
+ * -----
+ * Last Modified: Fri Oct 22 2021
+ * Modified By: leone
+ * -----
+ * Copyright (c) 2021 docktron
+ * -----
+ */
+
 import fs from 'fs';
 import vm from 'vm';
 import path from 'path';
 
 import Module from '../../system/Module';
 
-import * as IPC_EVENTS from '../../../ipc';
+import * as IPC_EVENTS from '~/ipc';
 
 import {
   __configDir,
@@ -14,7 +30,7 @@ import {
 import {
   IWebApp,
   IDockConfig,
-} from '../../../headers/docktron.h';
+} from '@docktron/headers';
 
 const debugLog = createDebugLog('DockConfigModule');
 

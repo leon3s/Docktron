@@ -76,6 +76,7 @@ class                     System {
 
   private __startMainWindow(id:string, render:string, opts:WindowOpts = {}) {
     return async () => {
+      console.log('start main window !');
       this.__win = new Window(id, render, opts);
       this.__win.instantiate();
       await this.__bootModules();

@@ -32,7 +32,7 @@ class                       AutoUpdater {
     this.__initListenners();
     try {
       const res = await autoUpdater.checkForUpdates();
-      debugLog(res);
+      debugLog('res:', res);
       if (!res) {
         this.__onReady();
       } else {

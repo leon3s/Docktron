@@ -1,10 +1,26 @@
+/*
+ *  ___   _   _ |  _|_ __  _     
+ *  |__) [_] |_ |<  |_ |  [_] |\|
+ * 
+ * File: \renderer\components\AppContextMenu\index.tsx
+ * Project: docktron
+ * Created Date: Monday, 18th October 2021 12:07:57 pm
+ * Author: leone
+ * -----
+ * Last Modified: Fri Oct 22 2021
+ * Modified By: leone
+ * -----
+ * Copyright (c) 2021 docktron
+ * -----
+ */
+
 import React from 'react';
-import { IApp } from '../../../headers/docktron.h';
+import { IWebApp } from '@docktron/headers';
 
 import * as Style from './style';
 
 interface IAppContextMenu {
-  app:IApp;
+  app:IWebApp;
   posY:number;
   posX:number;
   onClose:() => void;

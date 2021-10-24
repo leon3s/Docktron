@@ -1,14 +1,29 @@
+/*
+ *  ___   _   _ |  _|_ __  _     
+ *  |__) [_] |_ |<  |_ |  [_] |\|
+ * 
+ * File: \renderer\containers\Dock\index.tsx
+ * Project: docktron
+ * Created Date: Tuesday, 17th August 2021 7:59:22 am
+ * Author: leone
+ * -----
+ * Last Modified: Fri Oct 22 2021
+ * Modified By: leone
+ * -----
+ * Copyright (c) 2021 docktron
+ * -----
+ */
+
 import React from 'react';
 import {ipcRenderer} from 'electron';
+import {
+  IWebApp,
+  IDockConfig,
+} from '@docktron/headers'
+
+import * as IPC_EVENTS from '~/ipc';
 
 import AppList from '../../components/AppList';
-
-import {
-  IApp,
-  IDockConfig,
-} from '../../../headers/docktron.h'
-
-import * as IPC_EVENTS from '../../../ipc';
 
 import * as Style from './style';
 
@@ -22,7 +37,7 @@ interface IDockProps {
 export default class Dock extends React.PureComponent<IDockProps> {
   ref = React.createRef<AppList>();
 
-  onPressApp = (app: IApp): void => {
+  onPressApp = (app: IWebApp): void => {
     ipcRenderer.send(IPC_EVENTS.DOCK.APP_OPEN, app);
   }
 
@@ -35,7 +50,7 @@ export default class Dock extends React.PureComponent<IDockProps> {
     this.ref.current.onCloseContextMenu();
   }
 
-  onContextMenuOption = (action:string, app:IApp) => {
+  onContextMenuOption = (action:string, app:IWebApp) => {
     ipcRenderer.send(action, app);
   }
 

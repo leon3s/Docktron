@@ -1,3 +1,19 @@
+/*
+ *  ___   _   _ |  _|_ __  _     
+ *  |__) [_] |_ |<  |_ |  [_] |\|
+ * 
+ * File: \renderer\pages\app.tsx
+ * Project: docktron
+ * Created Date: Saturday, 25th September 2021 3:42:20 pm
+ * Author: leone
+ * -----
+ * Last Modified: Fri Oct 22 2021
+ * Modified By: leone
+ * -----
+ * Copyright (c) 2021 docktron
+ * -----
+ */
+
 import React from 'react';
 
 import HeaderBar from '../containers/HeaderBar';
@@ -24,6 +40,8 @@ export default class App extends React.Component<AppProps> {
 
   componentDidMount() {
     const pageUrl = new window.URL(window.location.href);
+    const query = pageUrl.searchParams.values();
+    console.log({query});
     const id = pageUrl.searchParams.get('id');
     const url = pageUrl.searchParams.get('url');
     const name = pageUrl.searchParams.get('name');

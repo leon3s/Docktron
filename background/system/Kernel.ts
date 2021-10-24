@@ -1,3 +1,19 @@
+/*
+ *  ___   _   _ |  _|_ __  _     
+ *  |__) [_] |_ |<  |_ |  [_] |\|
+ * 
+ * File: \background\system\Kernel.ts
+ * Project: docktron
+ * Created Date: Tuesday, 19th October 2021 10:51:34 am
+ * Author: leone
+ * -----
+ * Last Modified: Sun Oct 24 2021
+ * Modified By: leone
+ * -----
+ * Copyright (c) 2021 docktron
+ * -----
+ */
+
 import * as E from 'electron';
 
 import {createDebugLog} from '../utils';
@@ -16,11 +32,13 @@ export default class Kernel {
 
   public async boot() {
     debugLog('boot');
+    const gotTheLock = this.app.requestSingleInstanceLock();
+    if (!gotTheLock) this.app.quit();
     if (process.platform === 'darwin') {
       this.app.dock.hide();
     }
     // Disable harware acceleration for transparent background compatibility may be needed on some system
-    // this.app.disableHardwareAcceleration();
+    this.app.disableHardwareAcceleration();
     this.__blindAppListenner();
     await this.app.whenReady();
     this.__initScreen();

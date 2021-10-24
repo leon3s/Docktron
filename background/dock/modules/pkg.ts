@@ -1,11 +1,27 @@
+/*
+ *  ___   _   _ |  _|_ __  _     
+ *  |__) [_] |_ |<  |_ |  [_] |\|
+ * 
+ * File: \background\dock\modules\pkg.ts
+ * Project: docktron
+ * Created Date: Tuesday, 19th October 2021 3:46:58 pm
+ * Author: leone
+ * -----
+ * Last Modified: Sun Oct 24 2021
+ * Modified By: leone
+ * -----
+ * Copyright (c) 2021 docktron
+ * -----
+ */
+
 import vm from 'vm';
 import fs from "fs";
 import path from "path";
 import imageType from 'image-type';
 
-import { IWebApp } from "../../../headers/docktron.h";
+import { IWebApp } from "@docktron/headers";
 
-import * as IPC_EVENTS from '../../../ipc';
+import * as IPC_EVENTS from '~/ipc';
 
 import { WindowManager } from "../../system/modules";
 import Module, { TIpcListeners } from "../../system/Module";
@@ -95,13 +111,17 @@ class   PackagesModule extends Module {
       alwaysOnTop: false,
     });
     this.win.bindData({
-      name: 'Doctron Packages',
+      name: 'Docktron Packages',
       userAgent: 'Docktron/1.0',
       icon: '/images/docktron-logo.png',
       preloadPath: path.join(__static, './scripts/preload.js'),
       url: __isProd ? 'https://docktron.org/packages' : 'http://localhost:3001/packages',
     });
     this.win.instantiate();
+    this.win.on('close', (e) => {
+      e.preventDefault();
+      this.win.hide();
+    });
     this.win.render();
     this.win.once('ready-to-show', () => {
       this.win.show();
