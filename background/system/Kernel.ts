@@ -20,10 +20,11 @@ import {createDebugLog} from '../utils';
 
 const debugLog = createDebugLog('Kernel');
 
-export default class Kernel {
-  app:E.App;
-  screen:E.Screen;
-  primaryDisplay:E.Display;
+export default
+class             Kernel {
+  app:            E.App;
+  screen:         E.Screen;
+  primaryDisplay: E.Display;
 
   constructor() {
     debugLog('constructor');

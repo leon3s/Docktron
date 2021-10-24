@@ -3,12 +3,12 @@ import { IpcMainEvent } from 'electron';
 import System from '.';
 import Window from './Window';
 
-interface IModuleSettings {
-  id:string;
+interface                 IModuleSettings {
+  id:                     string;
 };
 
-export type TIpcListeners = {
-  [key:string]: (e:IpcMainEvent, ...args:any[]) => void
+export type               TIpcListeners = {
+  [key:string]:           (e:IpcMainEvent, ...args:any[]) => void
 }
 
 export default

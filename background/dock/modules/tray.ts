@@ -9,7 +9,7 @@ import { __static } from '../../utils';
 
 export
 class                     TrayModule extends Module {
-  public static settings = {
+  public static           settings = {
     id: 'dock.tray',
   }
 
