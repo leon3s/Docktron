@@ -2,7 +2,7 @@
   "private": true,
   "name": "docktron",
   "description": "Next-gen webapp launcher",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "author": "Leo Vernisse <leo.vernisse@gmail.com>",
   "main": "./app/background.js",
   "scripts": {
