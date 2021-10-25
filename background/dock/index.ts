@@ -52,10 +52,8 @@ class                   Dock {
     this.__bindIpcEvents();
     __system.win.preRender(this.__preRender);
     __system.win.once('ready-to-show', function() {
-      console.log('ready to show !!');
       configManager.syncConfig();
       __system.win.show();
-      console.log('SHOW !');
     });
     await __system.win.render();
   }
@@ -77,6 +75,16 @@ class                   Dock {
         number: 0,
       });
       win.show();
+    });
+
+    ipcMain.on(IPC_EVENTS.APP.GOBACK, (e) => {
+      const win = BrowserWindow.fromWebContents(e.sender);
+      win.webContents.send(IPC_EVENTS.APP.GOBACK);
+    });
+
+    ipcMain.on(IPC_EVENTS.APP.GONEXT, (e) => {
+      const win = BrowserWindow.fromWebContents(e.sender);
+      win.webContents.send(IPC_EVENTS.APP.GONEXT);
     });
 
     ipcMain.on(IPC_EVENTS.DOCK.HIDE, (e:IpcMainEvent) => {

@@ -5,6 +5,8 @@ import React from 'react';
 import * as Style from './style';
 import { ipcRenderer } from 'electron';
 
+import * as IPC_EVENTS from '~/ipc';
+
 interface WebviewProps {
   id:string;
   url:string;
@@ -22,9 +24,11 @@ interface WebView extends HTMLElement {
 export default class Webview extends React.PureComponent<WebviewProps> {
   componentDidMount() {
     const webview = document.getElementById('app-webview') as WebView;
-    ipcRenderer.on('open:dev-tools', () => {
-      webview.openDevTools();
+
+    ipcRenderer.on(IPC_EVENTS.APP.GOBACK, () => {
+      webview.canGoBack() && webview.goBack();
     });
+
     webview.addEventListener('dom-ready', () => {
       webview.executeJavaScript(`
         window.docktronAppId = '${this.props.id}';

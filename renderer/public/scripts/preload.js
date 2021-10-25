@@ -14,6 +14,15 @@ document.addEventListener('click', function (event) {
   }
 });
 
+window.addEventListener('mouseup', (e) => {
+  e.preventDefault();
+  if (e.button === 3) {
+    ipcRenderer.send('app:nagivation:goback');
+  } else if (e.button === 4) {
+    ipcRenderer.send('app:nagivation:gonext');
+  }
+});
+
 /** NOTIFICATION OVERRIDE **/
 const OldNotification = window.Notification;
 window.Notification = function(...args) {
@@ -69,6 +78,7 @@ class DocktronSDK {
     this.system = new System();
     this.notification = new DockNotification();
   }
+
   isInsideDocktron = () => true;
 }
 

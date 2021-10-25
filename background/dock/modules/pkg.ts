@@ -7,7 +7,7 @@
  * Created Date: Tuesday, 19th October 2021 3:46:58 pm
  * Author: leone
  * -----
- * Last Modified: Sun Oct 24 2021
+ * Last Modified: Mon Oct 25 2021
  * Modified By: leone
  * -----
  * Copyright (c) 2021 docktron
@@ -115,6 +115,14 @@ class             PackagesModule extends Module {
     win.on('close', (e) => {
       e.preventDefault();
       win.hide();
+    });
+    win.on('app-command', (e, cmd) => {
+      if (cmd === 'browser-backward') {
+        win.ipcEmit(IPC_EVENTS.APP.GOBACK);
+      }
+      if (cmd === 'browser-forward') {
+        win.ipcEmit(IPC_EVENTS.APP.GONEXT);
+      }
     });
     win.render();
   }
