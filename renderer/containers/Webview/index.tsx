@@ -10,7 +10,7 @@ import type {WebviewTag} from 'electron';
 import * as Style from './style';
 
 interface WebviewProps {
-  id:string;
+  ID:string;
   url:string;
   name:string;
   load:string;
@@ -28,7 +28,7 @@ export default class Webview extends React.PureComponent<WebviewProps> {
 
     webview.addEventListener('dom-ready', () => {
       webview.executeJavaScript(`
-        window.docktronAppId = '${this.props.id}';
+        window.docktronAppId = '${this.props.ID}';
       `).catch((err) => {
         console.error(err);
       });
@@ -41,9 +41,6 @@ export default class Webview extends React.PureComponent<WebviewProps> {
       slashes: true,
       protocol: 'file:',
       pathname: path.resolve(this.props.preloadPath),
-    });
-    console.log('render webview !', {
-      props: this.props,
     });
     return (
       <Style.Container id="webview-container">

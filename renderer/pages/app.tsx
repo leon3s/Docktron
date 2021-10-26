@@ -7,7 +7,7 @@
  * Created Date: Saturday, 25th September 2021 3:42:20 pm
  * Author: leone
  * -----
- * Last Modified: Fri Oct 22 2021
+ * Last Modified: Tu/10/yyyy 04:nn:57
  * Modified By: leone
  * -----
  * Copyright (c) 2021 docktron
@@ -28,7 +28,7 @@ interface AppProps {
 
 export default class App extends React.Component<AppProps> {
   state = {
-    id: '',
+    ID: '',
     url: '',
     name: '',
     load: '',
@@ -42,7 +42,7 @@ export default class App extends React.Component<AppProps> {
     const pageUrl = new window.URL(window.location.href);
     const query = pageUrl.searchParams.values();
     console.log({query});
-    const id = pageUrl.searchParams.get('id');
+    const ID = pageUrl.searchParams.get('ID');
     const url = pageUrl.searchParams.get('url');
     const name = pageUrl.searchParams.get('name');
     const load = pageUrl.searchParams.get('load');
@@ -50,7 +50,7 @@ export default class App extends React.Component<AppProps> {
     const userAgent = pageUrl.searchParams.get('userAgent');
     const preloadPath = pageUrl.searchParams.get('preloadPath');
     this.setState({
-      id,
+      ID,
       url,
       name,
       load,
@@ -63,7 +63,7 @@ export default class App extends React.Component<AppProps> {
 
   render() {
     const {
-      id,
+      ID,
       url,
       name,
       icon,
@@ -72,9 +72,6 @@ export default class App extends React.Component<AppProps> {
       userAgent,
       preloadPath,
     } = this.state;
-    console.log('app.tsx state : ', {
-      state: this.state,
-    });
     return (
       isReady ?
         <React.Fragment>
@@ -83,7 +80,7 @@ export default class App extends React.Component<AppProps> {
             favicon={icon}
           />
           <Webview
-            id={id}
+            ID={ID}
             url={url}
             name={name}
             load={load}

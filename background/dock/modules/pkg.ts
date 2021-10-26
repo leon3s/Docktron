@@ -76,8 +76,8 @@ class             PackagesModule extends Module {
 
     [IPC_EVENTS.PKG.UNINSTALL]:
       (e, pkg) => {
-        if (pkg && pkg.id) {
-          const appPath = path.join(__appsDir, pkg.id);
+        if (pkg && pkg.ID) {
+          const appPath = path.join(__appsDir, pkg.ID);
           const bIsPathExist = fs.existsSync(appPath);
           if (bIsPathExist) {
             fs.rmSync(appPath, { recursive: true });
