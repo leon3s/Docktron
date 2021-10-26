@@ -7,7 +7,7 @@
  * Created Date: Wednesday, 20th October 2021 3:54:35 pm
  * Author: leone
  * -----
- * Last Modified: Sun Oct 24 2021
+ * Last Modified: Tue Oct 26 2021
  * Modified By: leone
  * -----
  * Copyright (c) 2021 docktron
@@ -18,7 +18,7 @@ import fs from 'fs';
 import vm from 'vm';
 import path from 'path';
 
-import Module from '../../system/Module';
+import Module from '~/system/Module';
 
 import * as IPC_EVENTS from '~/ipc';
 
@@ -66,7 +66,10 @@ class                   ConfigModule extends Module {
   public readAppsDir() {
     const appsDirPath = path.join(this.__configDir, 'apps');
     const bIsAppsDirExist = fs.existsSync(appsDirPath);
-    if (!bIsAppsDirExist) return [];
+    if (!bIsAppsDirExist) {
+      fs.mkdirSync(appsDirPath);
+      return []
+    };
     const appNames = fs.readdirSync(appsDirPath);
     return appNames.reduce((acc, appName) => {
       const appPath = path.join(appsDirPath, appName);

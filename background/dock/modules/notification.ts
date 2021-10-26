@@ -7,7 +7,7 @@
  * Created Date: Sunday, 24th October 2021 9:20:58 pm
  * Author: leone
  * -----
- * Last Modified: Sun Oct 24 2021
+ * Last Modified: Mon Oct 25 2021
  * Modified By: leone
  * -----
  * Copyright (c) 2021 docktron
@@ -16,8 +16,10 @@
 
 import * as IPC_EVENTS from '~/ipc';
 
-import Module, {TIpcListeners} from "../../system/Module";
-import { WindowManager } from "../../system/modules/WindowManager";
+import Module from "~/system/Module";
+import { WindowManager } from "~/system/modules";
+
+import type {TIpcListeners} from '~/system/Module';
 
 export
 class                   NotificationModule extends Module {

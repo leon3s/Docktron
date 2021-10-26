@@ -22,6 +22,7 @@ module.exports = function(api) {
       ["module-resolver", {
         "alias": {
           "~/ipc": "./ipc",
+          "~/system": "./background/system"
         },
       }]
     ]

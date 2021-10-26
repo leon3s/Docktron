@@ -1,11 +1,13 @@
 import url from 'url';
 import path from 'path';
 import React from 'react';
-
-import * as Style from './style';
 import { ipcRenderer } from 'electron';
 
 import * as IPC_EVENTS from '~/ipc';
+
+import type {WebviewTag} from 'electron';
+
+import * as Style from './style';
 
 interface WebviewProps {
   id:string;
@@ -14,16 +16,11 @@ interface WebviewProps {
   load:string;
   userAgent:string;
   preloadPath:string;
-}
-
-interface WebView extends HTMLElement {
-  openDevTools: () => void;
-  executeJavaScript: (js:string) => Promise<{e:string}>;
-}
+};
 
 export default class Webview extends React.PureComponent<WebviewProps> {
   componentDidMount() {
-    const webview = document.getElementById('app-webview') as WebView;
+    const webview = document.getElementById('app-webview') as WebviewTag;
 
     ipcRenderer.on(IPC_EVENTS.APP.GOBACK, () => {
       webview.canGoBack() && webview.goBack();

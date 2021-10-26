@@ -7,7 +7,7 @@
  * Created Date: Tuesday, 19th October 2021 3:46:58 pm
  * Author: leone
  * -----
- * Last Modified: Mon Oct 25 2021
+ * Last Modified: Tue Oct 26 2021
  * Modified By: leone
  * -----
  * Copyright (c) 2021 docktron
@@ -21,7 +21,7 @@ import imageType from 'image-type';
 
 import { IWebApp } from "@docktron/headers";
 
-import {NativeImage, nativeImage} from 'electron';
+import {nativeImage} from 'electron';
 
 import * as IPC_EVENTS from '~/ipc';
 
@@ -54,6 +54,7 @@ class             PackagesModule extends Module {
         if (!pkgVersion) {
           const response = this.__installApp(pkg);
           this.configModule.syncConfig();
+          this.__loadApp(pkg);
           e.returnValue = response;
           return;
         }
@@ -94,18 +95,9 @@ class             PackagesModule extends Module {
   };
 
   private __loadApp = (app:IWebApp) => {
-    // console.log('loading app ', app.icon);
-    const iconBuffer = Buffer.from(app.icon.replace('data:image/png;base64,', ''), 'base64');
-    console.log('--- loooad app ---');
-    console.log(iconBuffer);
-    const icon = nativeImage.createFromBuffer(iconBuffer);
-    console.log(icon);
-    console.log(icon.isEmpty());
-    console.log(icon.toPNG());
-    console.log('--- loooad app ---');
-    const win = this.windowManager.createWindow(app.id, 'app', {
+    console.log('load app id', app.ID);
+    const win = this.windowManager.createWindow(app.ID, 'app', {
       title: app.name,
-      icon: icon,
     });
     win.bindData({
       ...app,
@@ -175,7 +167,7 @@ class             PackagesModule extends Module {
       }
       const iconeName = this.__generateAppIcon(appPath, pkg.icon);
   const js = `module.exports = {
-    id: '${pkg.ID}',
+    ID: '${pkg.ID}',
     url: '${pkg.url}',
     name: '${pkg.name}',
     icon: '${iconeName}',

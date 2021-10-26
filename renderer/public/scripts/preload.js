@@ -15,10 +15,11 @@ document.addEventListener('click', function (event) {
 });
 
 window.addEventListener('mouseup', (e) => {
-  e.preventDefault();
   if (e.button === 3) {
+    e.preventDefault();
     ipcRenderer.send('app:nagivation:goback');
   } else if (e.button === 4) {
+    e.preventDefault();
     ipcRenderer.send('app:nagivation:gonext');
   }
 });

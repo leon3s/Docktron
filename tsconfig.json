@@ -21,6 +21,8 @@
     "paths": {
       "~/ipc": ["ipc"],
       "~/ipc/*": ["ipc/*"],
+      "~/system": ["background/system"],
+      "~/system/*": ["background/system/*"],
       "~/headers/*": ["headers/*"]
     }
   },

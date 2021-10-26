@@ -69,7 +69,8 @@ class                   Dock {
     });
 
     ipcMain.on(IPC_EVENTS.DOCK.APP_OPEN, (e:IpcMainEvent, pkg) => {
-      const win = this.windowManager.getByID(pkg.id);
+      console.log('calling open for ', {pkg});
+      const win = this.windowManager.getByID(pkg.ID);
       this.__system.win.ipcEmit(IPC_EVENTS.NOTIFICATION.COUNT, {
         appId: pkg.id,
         number: 0,
