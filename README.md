@@ -10,6 +10,8 @@
 Docktron is a dock that turn you favorite webapps into native application
 it's open source and will always be.
 
+Download: https://docktron.org
+
 ## Developement
 
 Clone repository
