@@ -26,7 +26,7 @@ Run in development
 ```
 npm run dev
 ```
-Package application (for production tests)
+Package application (for production)
 ```
 npm run build
 ```
