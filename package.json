@@ -3,7 +3,6 @@
   "name": "docktron",
   "description": "Next-gen webapp launcher",
   "version": "1.0.13",
-  "author": "Leo Vernisse <leo.vernisse@gmail.com>",
   "main": "./app/background.js",
   "scripts": {
     "dev": "nextron --port 3002",
